@@ -17,33 +17,20 @@ async function deleteUser(userId:string) {
 async function getUsers() {
     const users = await db.query.users.findMany({
         with: {
-            favourites: true,
-            carts: true
+            favourites: {
+                with: {
+                    product: true
+                }
+            },
+            carts: {
+                with: {
+                    product: true
+                }
+            }
         }
-    })
-
-    return await Promise.all((users.map(async (u) => {
-        const favouriteProducts = await Promise.all(u.favourites.map(async (f) => {
-            return await db.query.products.findFirst({
-                where: eq(products.id, f.productId)
-            })
-        }))
-        const cartProducts = await Promise.all(u.carts.map(async (c) => {
-            return await db.query.products.findFirst({
-                where: eq(products.id, c.productId)
-            })
-        }))
-        return {
-            id: u.id,
-            name: u.name,
-            email: u.email,
-            favourites: favouriteProducts,
-            carts: cartProducts
-        }
-    })
-    ))
+    });
+    return users;
 }
-
 
 async function createProduct(body: {name: string, description: string}) {
     await db.insert(products).values(body)
@@ -80,12 +67,4 @@ async function deleteCart(jopa:string) {
 // await createCart({userId: '019aa64a-4714-7000-99a1-110936f177bb', productId: '019aa64b-bc34-7000-9845-b7201097d52f'})
 // await createFavourite({userId: '019aa64a-4714-7000-99a1-110936f177bb', productId: '019aa650-e9fd-7000-814e-507f64e68e0d'})
 
-
-// const users = await getUsers()
-// console.log(users.map((u) => {
-//     return {
-//         name: u.name,
-//         favourites: u.favourites ? u.favourites[0] : 'В "Любимых" ничего не найдено',
-//         cart: u.carts ? u.carts[0] : 'В корзине ничего не найдено'
-//     }
-// }))
+console.log(await getUsers())
