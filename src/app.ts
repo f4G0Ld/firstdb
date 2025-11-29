@@ -4,7 +4,7 @@ import { productServices } from "./productServices";
 import { favouriteServices } from "./favouriteServices";
 import { cartServices } from "./cartServices";
 
-const app = new Elysia({
+const _app = new Elysia({
 	name: "app",
 	prefix: "/api",
 })
