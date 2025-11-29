@@ -11,7 +11,7 @@ export const users = pg.pgTable('users', {
     name: pg
     .text()
     .notNull(),
-    
+
     email: pg
     .text()
     .notNull()
