@@ -13,7 +13,6 @@ export const favouriteServices = new Elysia({
 		"/",
 		async ({ body }) => {
 			await db.insert(favourites).values(body);
-			return { success: "ok" };
 		},
 		{
 			body: favouriteSchema.omit({ createdAt: true }),
@@ -21,5 +20,4 @@ export const favouriteServices = new Elysia({
 	)
 	.delete("/:id", async ({ params }) => {
 		await db.delete(favourites).where(eq(favourites.id, params.id));
-		return { success: "ok" };
 	});

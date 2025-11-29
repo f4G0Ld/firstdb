@@ -13,7 +13,6 @@ export const cartServices = new Elysia({
 		"/",
 		async ({ body }) => {
 			await db.insert(cart).values(body);
-			return { success: "ok" };
 		},
 		{
 			body: cartSchema,
@@ -21,5 +20,4 @@ export const cartServices = new Elysia({
 	)
 	.delete("/:id", async ({ params }) => {
 		await db.delete(cart).where(eq(cart.id, params.id));
-		return { success: "ok" };
 	});

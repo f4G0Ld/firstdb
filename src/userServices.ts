@@ -46,7 +46,6 @@ export const userServices = new Elysia({
 		"/",
 		async ({ body }) => {
 			await db.insert(users).values(body);
-			return { success: "ok" };
 		},
 		{
 			body: userSchema,
@@ -56,7 +55,6 @@ export const userServices = new Elysia({
 		"/:id",
 		async ({ params, body }) => {
 			await db.update(users).set(body).where(eq(users.id, params.id));
-			return { success: "ok" };
 		},
 		{
 			body: userSchema.partial(),
@@ -64,5 +62,4 @@ export const userServices = new Elysia({
 	)
 	.delete("/:id", async ({ params }) => {
 		await db.delete(users).where(eq(users.id, params.id));
-		return { success: "ok" };
 	});

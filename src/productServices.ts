@@ -16,7 +16,6 @@ export const productServices = new Elysia({
 		"/",
 		async ({ body }) => {
 			await db.insert(products).values(body);
-			return { success: "ok" };
 		},
 		{
 			body: productSchema,
@@ -26,7 +25,6 @@ export const productServices = new Elysia({
 		"/:id",
 		async ({ params, body }) => {
 			await db.update(products).set(body).where(eq(products.id, params.id));
-			return { success: "ok" };
 		},
 		{
 			body: productSchema.partial(),
@@ -34,5 +32,4 @@ export const productServices = new Elysia({
 	)
 	.delete("/:id", async ({ params }) => {
 		await db.delete(products).where(eq(products.id, params.id));
-		return { success: "ok" };
 	});
